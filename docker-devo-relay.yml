@@ -26,7 +26,7 @@ services:
       # Set the right secure port to send data to Devo
       - LOGTRUST_PORT=443
       # Set the name for the relay, usually relay-domain_name
-      - RELAY_NAME=docker-relay-domain-${RANDOM}
+      - RELAY_NAME=${RANDOMHOST}
       # Set valid APIKEY for the domain
       - RELAY_APIKEY=${RELAY_APIKEY}
       # Set proxy values if it's necessary in for your network. Default empty values are not applied
