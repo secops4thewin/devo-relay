@@ -16,7 +16,7 @@ services:
       ROOT_LOG_LEVEL: ${LOG_LEVEL:-info}
       JAVA_OPTS: "-Dfile.encoding=UTF-8 ${JAVA_OPTS}"
     volumes:
-      - conf:/opt/devo/ng-relay/conf
+      - ./conf:/opt/devo/ng-relay/conf
       - ./buffer:/var/logt/buffer
       - ./logs:/var/logt/local
     restart: always
@@ -30,6 +30,17 @@ services:
       "sleep 5; exec java -jar /opt/devo/devo-ng-relay-cli.jar --host=$$host" ]
     depends_on:
       - devo-ng-relay
+
+  gogenPaloLogs:
+      image: gogen
+      volumes:
+        - ./events.yml:/tmp/events.yml
+        - ./pan_inc_traffic.sample:/tmp/pan_inc_traffic.sample
+      command: bash -c "/wait && cd /tmp/ && ls /tmp && gogen -c /tmp/events.yml"
+      environment:
+        WAIT_HOSTS: devo-ng-relay:13010
+        WAIT_TIMEOUT: 600
+
 
 volumes:
   conf:
